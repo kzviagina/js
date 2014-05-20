@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test 05</title>
+        <style>
+            html, body {
+                height: 100%;
+                padding: 0;
+                margin: 0;
+                background: #f2f2f2;
+            }
+            .col {
+                float: left;
+                width: 30%;
+                padding: 0 10%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="col">
+            <h1>Add new record</h1>
+            <p>
+                <input type="text" id="date" placeholder="Enter date">
+            </p>
+            <p>
+                <input type="text" id="descr" placeholder="Enter description">
+            </p>
+            <p>
+                <input type="button" value="Add" id="add">
+            </p>
+        </div>
+        <div class="col">
+            <h1>Remove record</h1>
+            <div id="results"></div>
+            <p>
+                <input type="button" value="Resolve" id="resolve">
+                <input type="button" value="Remove" id="delete">
+            </p>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
