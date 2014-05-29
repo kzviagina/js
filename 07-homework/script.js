@@ -1,89 +1,73 @@
 var itemsListElement = document.getElementById('items');
 var cartElement = document.getElementById('cart');
 var shop = {
+    stock: {
+        itemsList: [
+            {name: 'bag', price: 59, qty: 5, totalQty: 5, imgUrl: 'img/bag.jpg'},
+            {name: 'dress', price: 69, qty: 3, totalQty: 3, imgUrl: 'img/dress.jpg'},
+            {name: 'jacket', price: 49, qty: 18, totalQty: 18, imgUrl: 'img/jacket.jpg'},
+            {name: 'jumper', price: 32, qty: 1, totalQty: 1, imgUrl: 'img/jumper.jpg'},
+            {name: 'shoes', price: 59, qty: 12, totalQty: 12, imgUrl: 'img/shoes.jpg'},
+            {name: 'shorts', price: 40, qty: 5, totalQty: 5, imgUrl: 'img/shorts.jpg'},
+            {name: 'socks', price: 2, qty: 2, totalQty: 2, imgUrl: 'img/socks.jpg'},
+            {name: 'top', price: 19, qty: 7, totalQty: 7, imgUrl: 'img/top.jpg'}
+        ]
+    },
     cart: {
-        itemList: [],
+        itemsList: [],
         itemsQuantity: 0,
-        addItem: function(item) {
-            this.itemList.push(new CartItem(item));
+        totalCost: 0,
+        addItem: function(cartItem) {
+            this.itemsList.push(cartItem);
         },
         deleteItem: function(idx) {
-            cartItem = this.itemList.splice(idx, 1)[0];
+            cartItem = this.itemsList.splice(idx, 1)[0];
             cartItem.item.qty += cartItem.qty;
-            showItems();
-            showCart();
+            
         },
         calcCost: function() {
-            var totalCost = 0;
-            for (var i = 0; i < this.itemList.length; i++) {
-                totalCost += this.itemList[i].price;
+            this.totalCost = 0;
+            this.itemsQuantity = 0;
+            for (var i = 0; i < this.itemsList.length; i++) {
+                var currentItem = this.itemsList[i];
+                this.itemsQuantity += currentItem.qty;
+                this.totalCost += currentItem.item.price * currentItem.qty;
             }
-            return totalCost;
+        },
+        getCartItem: function(item) {
+            var cartItem = null;
+            for (i = 0; i < this.itemsList.length; i++) {
+                if (this.itemsList[i].item === item) {
+                    cartItem = this.itemsList[i];
+                    break;
+                }
+            }
+            return cartItem;
         },
         updateQty: function(item, enteredQty) {
-            
-            if (item.qty > 0) {
-                var cartItem = null;
-                for (i = 0; i < this.itemList.length; i++) {
-                    if (this.itemList[i].item === item) {
-                        cartItem = this.itemList[i];
-                    }
-                }
-                
-                if (typeof (enteredQty) !== 'undefined') {
-                    if (enteredQty === 0) {
-                        this.deleteItem(this.itemList.indexOf(cartItem));
-                    }
-                    else if (enteredQty >  (item.qty + cartItem.qty)) { 
-                        alert('Sorry, there are no so many items in stock');
-                    }
-                    else {
-                        var totalItemCount = item.qty + cartItem.qty;
-                        this.itemsQuantity -= cartItem.qty;
-                        cartItem.qty = enteredQty;
-                        this.itemsQuantity += enteredQty;
-                        item.qty = totalItemCount;
-                        shop.itemsInStock.reserveItem(item, enteredQty);
-                        
-                        showCart();
-                    }
-                } else {
-                    //If item added to cart
-                    if (cartItem !== null) {
-                        // Update its quantity
-                        cartItem.qty++;
-                    } else {
-                        //Othervise add item
-                        this.addItem(item);
-                    }
-
-                    shop.itemsInStock.reserveItem(item);
-                    this.itemsQuantity++;
-                    showCart();
-                }
+            if (typeof(enteredQty) === 'undefined') {
+                enteredQty = 1;
             }
-        }
-    },
-    
-    itemsInStock: {
-        itemsList: [
-            {name: 'bag', price: 59, qty: 5, imgUrl: 'img/bag.jpg'},
-            {name: 'dress', price: 69, qty: 3, imgUrl: 'img/dress.jpg'},
-            {name: 'jacket', price: 49, qty: 18, imgUrl: 'img/jacket.jpg'},
-            {name: 'jumper', price: 32, qty: 1, imgUrl: 'img/jumper.jpg'},
-            {name: 'shoes', price: 59, qty: 12, imgUrl: 'img/shoes.jpg'},
-            {name: 'shorts', price: 40, qty: 5, imgUrl: 'img/shorts.jpg'},
-            {name: 'socks', price: 2, qty: 2, imgUrl: 'img/socks.jpg'},
-            {name: 'top', price: 19, qty: 7, imgUrl: 'img/top.jpg'}
-        ],
-        reserveItem: function(item, amount) {
-            if (typeof(amount) !== 'undefined') {
-                item.qty -= amount;
-            } else {
-                item.qty -= 1;
-                if (item.qty === 0) {
-                    showItems();
+            //if total qty of items in stock is greater than enetered value            
+            if (item.totalQty >= enteredQty) {              
+                var cartItem = this.getCartItem(item);
+                if (cartItem === null) {
+                    cartItem = new CartItem(item);
+                    this.addItem(cartItem);
                 }
+                var diff = cartItem.qty - enteredQty;
+                item.qty += diff;
+                cartItem.qty = enteredQty;
+
+                if (enteredQty === 0) {
+                    this.deleteItem(this.itemsList.indexOf(cartItem));
+                }
+                this.calcCost();
+                showItems();
+                showCart();
+
+            } else {
+                alert('Sorry, there are no so many items in stock');
             }
         }
     }
@@ -91,58 +75,54 @@ var shop = {
 
 function CartItem(item) {
     this.item = item;
-    this.qty = 1;
-}
-
-function showCart() {
-    var cartList = document.createElement('tbody');
-    for (var i = 0; i < shop.cart.itemList.length; i++) {
-        showCartItem(cartList, shop.cart.itemList[i], i);
-    }
-    cartElement.innerHTML = cartList.innerHTML;
+    this.qty = 0;
 }
 
 /* Event handlers */
 itemsListElement.addEventListener('click', function (e) {
     var target = e.target;
+    e.preventDefault();
     if (target.tagName === 'A') {
         itemIdx = target.parentNode.getAttribute('id');
-        shop.cart.updateQty(shop.itemsInStock.itemsList[itemIdx]);
+        shop.cart.updateQty(shop.stock.itemsList[itemIdx]);
     }
 }, false);
 
 cartElement.addEventListener('click', function (e) {
     var target = e.target;
+    e.preventDefault();
     if (target.tagName === 'A') {
         var targetIndex = parseInt(target.parentNode.parentNode.getAttribute('index'), 10);
         if (target.attributes.class.value === 'btn-remove') {
             //Remove item from cart
-            shop.cart.deleteItem(targetIndex);            
+            shop.cart.updateQty(shop.cart.itemsList[targetIndex].item, 0);
         } else if (target.attributes.class.value === 'btn-change-qty') {
             //Change item quantity
-            var enteredQty = prompt('Please, type quantity');
-            shop.cart.updateQty(shop.cart.itemList[targetIndex].item, parseInt(enteredQty, 10));
+            var enteredQty = parseInt(prompt('Please, type quantity'), 10);
+            if (!isNaN(enteredQty)) {
+                shop.cart.updateQty(shop.cart.itemsList[targetIndex].item, enteredQty);
+            }            
         }
     }
 }, false);
 
 function showItems() {
     var itemsList = document.createDocumentFragment();
-    for (var i = 0; i < shop.itemsInStock.itemsList.length; i++) {
+    for (var i = 0; i < shop.stock.itemsList.length; i++) {
         var item = document.createElement('li');
         var img = document.createElement('img');
         var name = document.createElement('h4');
         var price = document.createElement('span');
         var button = document.createElement('a');
         item.setAttribute('id', i);
-        img.setAttribute('src', shop.itemsInStock.itemsList[i].imgUrl);
-        img.setAttribute('alt', shop.itemsInStock.itemsList[i].name);
-        name.innerHTML = shop.itemsInStock.itemsList[i].name;
-        price.innerHTML = shop.itemsInStock.itemsList[i].price + '$';
+        img.setAttribute('src', shop.stock.itemsList[i].imgUrl);
+        img.setAttribute('alt', shop.stock.itemsList[i].name);
+        name.innerHTML = shop.stock.itemsList[i].name;
+        price.innerHTML = shop.stock.itemsList[i].price + '$';
         item.appendChild(img);
         item.appendChild(name);
         item.appendChild(price);
-        if (shop.itemsInStock.itemsList[i].qty > 0) {
+        if (shop.stock.itemsList[i].qty > 0) {
             button.setAttribute('class', 'btn');
             button.setAttribute('href', '#');
             button.innerHTML = 'Add to bag';
@@ -179,6 +159,14 @@ function showCartItem(cartList, cartItem, index) {
     cartItemElement.appendChild(qty);
     cartItemElement.appendChild(actions);
     cartList.appendChild(cartItemElement);
+}
+
+function showCart() {
+    var cartList = document.createElement('tbody');
+    for (var i = 0; i < shop.cart.itemsList.length; i++) {
+        showCartItem(cartList, shop.cart.itemsList[i], i);
+    }
+    cartElement.innerHTML = cartList.innerHTML;
 }
 
 showItems();
