@@ -7,17 +7,49 @@
     <body>
         <div class="container">
             <div class="clearfix">
-                <div class="content">
-                    <ul id="items" class="items-list">
-                    </ul>
-                </div>
-                <div class="sidebar">
-                    
-                </div>
+                <ul id="items" class="items-list">
+                </ul>
             </div>
             <table id="cart" class="cart">
                 
             </table>
+            <p id="total-cost" class="total"></p>
+        </div>
+        <div id="popup" class="popup-container" style="display: none;">
+            <div id="popup-checkout" class="popup" style="display: none;">
+                <header class="popup-header">
+                    <h3>Please enter shipping info</h3>
+                </header>
+                <div class="popup-content">
+                    <div class="form-row clearfix">
+                        <label for="first-name" class="label">First Name</label>
+                        <input type="text" id="first-name" class="control">
+                    </div>
+                    <div class="form-row clearfix">
+                        <label for="last-name" class="label">Last Name</label>
+                        <input type="text" id="last-name" class="control">
+                    </div>
+                    <div class="form-row clearfix">
+                        <label for="address" class="label">Address</label>
+                        <input type="text" id="address" class="control">
+                    </div>
+                </div>
+                <footer class="popup-footer clearfix">
+                    <a href="#" class="btn-cancel">Cancel</a>
+                    <a href="#" class="btn-ok">Ok</a>                    
+                </footer>
+            </div>
+            <div id="popup-order-details" class="popup" style="display: none;">
+                <header class="popup-header">
+                    <h3>Thanks for your order!</h3>
+                </header>
+                <div class="popup-content">
+                    
+                </div>
+                <footer class="popup-footer clearfix">
+                    <a href="#" class="btn-close">Close</a>                    
+                </footer>
+            </div>
         </div>
         <script src="script.js"></script>
     </body>

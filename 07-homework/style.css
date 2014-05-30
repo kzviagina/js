@@ -17,7 +17,7 @@ html, body {
     clear: both;
 }
 .container {
-    width: 960px;
+    width: 860px;
     margin: 0 auto;
     padding: 20px 0;
 }
@@ -31,7 +31,7 @@ html, body {
 }
 .items-list {
     margin: -20px 0 0 -20px;
-    width: 700px;
+    width: 100%;
     list-style: none;
 }
 .items-list li {
@@ -80,4 +80,52 @@ table td {
 }
 table [class*=btn] + [class*=btn] {
     margin-left: 5px;
+}
+.total {
+    padding: 10px 0;
+}
+.btn-checkout,
+.btn-ok {
+    float: right;
+}
+.btn-cancel {
+    float: left;
+}
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(51, 51, 51, 0.5);
+}
+.popup {
+    width: 600px;
+    margin: 200px auto 0;
+    background: #fff;
+    border: 1px solid #999;
+    box-shadow: 0px 0px 6px #999;
+}
+.popup-content {
+    padding: 10px 20px;
+}
+.popup-content p {
+    margin: 5px 0;
+}
+.popup-header,
+.popup-footer {
+    padding: 10px 20px;
+    background: #f2f2f2;
+}
+.form-row + .form-row {
+    margin-top: 10px;
+}
+.form-row .label {
+    float: left;
+    width: 200px;
+}
+.form-row .control {
+    float: right;
+    width: 360px;
+    box-sizing: border-box;
 }
