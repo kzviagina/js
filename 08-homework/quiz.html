@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Справочник по уроку</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/jquery.js"></script>
+    <script type="application/javascript" src="js/bootstrap.js"></script>
+    <script type="application/javascript" src="quiz.js"></script>
+    <meta charset="utf-8">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        .hero-unit {
+            padding: 23px;
+            font-size: 15px;
+            line-height: 25px;
+        }
+        .answers-container ul {
+            list-style: none;
+            margin: 0 0 20px;
+            padding: 0;
+        }
+        .answers-container li {
+            margin-bottom: 8px;
+        }
+        .answers-container label input {
+            margin: 0 6px 0 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="#">Simple quiz</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <button id="start-button" class="btn btn-primary" value="Start">Начать тест</button>
+    <div id="quiz-container" style="display: none; max-width: 500px;margin: 0 auto;">
+        <!--Место для вопроса-->
+        <h2 id="question-title"></h2>
+        <div id="answers-container" class="answers-container"></div>
+        <div class="clearfix">
+            <div class="pull-left">
+                <input class="btn" id="back-btn" type="button" value="Назад">
+                <input class="btn" id="finish-btn" type="button" value="Закончить">
+            </div>
+            <div class="pull-right">
+                <input class="btn btn-primary" id="next-btn" type="button" value="Далее">
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    window.onload = function () {
+        Quiz.init();
+    };
+</script>
+</body>
+</html>
