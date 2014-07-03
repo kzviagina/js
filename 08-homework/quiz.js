@@ -312,7 +312,6 @@ var Quiz = {
         }
     },
     checkAnswers: function () {
-        debugger;
         for (var i = 0; i < this.questions.length; i++) {
             if (typeof this.questions[i].correct !== 'undefined') {
                 if (this.questions[i].chosen.toString() === this.questions[i].correct.toString()) {
