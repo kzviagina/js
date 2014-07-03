@@ -235,7 +235,6 @@ var Quiz = {
             $li = document.createElement('li');
             $control = document.createElement('input');
             $control.type = 'text';
-            $control.setAttribute('id', 'ololo');
             $li.appendChild($control);
             $ul.appendChild($li);
         }
