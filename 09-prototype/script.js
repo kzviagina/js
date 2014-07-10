@@ -38,37 +38,41 @@ Employee.prototype.retire = function () {
 
 //Cleaner
 function Cleaner () {
+    Cleaner.superclass.constructor.apply(this, arguments);
     this.cleanUp = function () {
         console.log(this.name + ' started to clean up');
     };
 }
 //Guard
 function Guard () {
+    Guard.superclass.constructor.apply(this, arguments);
     this.guardPlace = function () {
         console.log(this.name + ' started to guard');
     };
 }
 
 function Boss () {
-    
+    Boss.superclass.constructor.apply(this, arguments);
 }
 
 //CTO & Manager inherit from Boss
 function CEO () {
-    
+    CEO.superclass.constructor.apply(this, arguments);
 }
 
 function CTO () {
-    
+    CTO.superclass.constructor.apply(this, arguments);
 }
 
 function Manager () {
+    Manager.superclass.constructor.apply(this, arguments);
     this.assignTask = function () {};
 }
 //Developer
 function Developer () {
+    Developer.superclass.constructor.apply(this, arguments);
     this.codeLines = 0;
-    this.tasks = [];
+    this.tasks = [1];
     this.toCode = function () {
         if (this.tasks.length) {
             console.log('And so you code...');
@@ -83,11 +87,14 @@ function Developer () {
 }
 
 //Trainee inherits from Developer do not receive salary
-function Trainee () {
-    
+function Trainee() {
+    Trainee.superclass.constructor.apply(this, arguments);
+    this.receiveSalary = function() {
+        console.log(this.name + ' is trainee and can\'t receive salary');
+    };
 }
 
-//
+//Inheritance
 extend(Cleaner, Employee);
 extend(Guard, Employee);
 extend(Boss, Employee);
