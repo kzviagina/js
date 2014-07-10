@@ -1,10 +1,21 @@
 //Inheritance
+function extend(Child, Parent) {
+    var F = function() { };
+    F.prototype = Parent.prototype;
+    Child.prototype = new F();
+    Child.prototype.constructor = Child;
+    Child.superclass = Parent.prototype;
+}
+
 
 //Employee classes
+//name - String
+//age - Number
+//sex - String or Bool (1 - male, 0 - female)
 function Employee (name, age, sex) {
     this.name = name;
     this.age = age;
-    this.sex = sex;
+    this.sex = sex; 
 }
 
 Employee.prototype.comeToWork = function () {
@@ -25,14 +36,13 @@ Employee.prototype.retire = function () {
     console.log(this.name + ' retired');
 };
 
-//var me = new Employee('Kate', 26, 0);
-
+//Cleaner
 function Cleaner () {
     this.cleanUp = function () {
         console.log(this.name + ' started to clean up');
     };
 }
-
+//Guard
 function Guard () {
     this.guardPlace = function () {
         console.log(this.name + ' started to guard');
@@ -55,7 +65,7 @@ function CTO () {
 function Manager () {
     this.assignTask = function () {};
 }
-
+//Developer
 function Developer () {
     this.codeLines = 0;
     this.tasks = [];
@@ -77,8 +87,22 @@ function Trainee () {
     
 }
 
-//company
+//
+extend(Cleaner, Employee);
+extend(Guard, Employee);
+extend(Boss, Employee);
+extend(CEO, Boss);
+extend(CTO, Boss);
+extend(Manager, Boss);
+extend(Developer, Employee);
+extend(Trainee, Developer);
+
+var me = new Developer('Kate', 26, 0);
+var he = new Trainee('Serg', 24, 1);
+
+//Company
 function Company () {
+    this.employees = {};
     this.cleaners = [];
     this.guards = [];
     this.trainees = [];
