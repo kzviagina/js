@@ -66,22 +66,38 @@ function CTO () {
 
 function Manager () {
     Manager.superclass.constructor.apply(this, arguments);
-    this.assignTask = function () {};
+    this.assignTask = function (developer, taskName) {
+        developer.acceptTask(taskName);
+    };
 }
 //Developer
 function Developer () {
     Developer.superclass.constructor.apply(this, arguments);
-    this.codeLines = 0;
-    this.tasks = [1];
+    var tasks = [],
+        codeLines = 0;
+    this.acceptTask = function (taskName) {
+        if (!tasks.length) {
+            tasks.push(taskName);
+        } else {
+            console.log('Sorry, I have tasks already');
+        }       
+        
+            console.log('tasks ' + tasks);
+    };
     this.toCode = function () {
-        if (this.tasks.length) {
+        if (tasks.length) {
             console.log('And so you code...');
-            this.codeLines++;
+            codeLines += 2;
+            console.log('codeLines ' + codeLines);
         }
     };
     this.fixBugs = function () {
-        if (this.codeLines > 0) {
+        if (codeLines > 0) {
             console.log('Compile and load... In debug mode');
+            codeLines--;
+            console.log('codeLines ' + codeLines);
+        } else {
+            console.log('No bugs to fix!');
         }
     };
 }
@@ -106,6 +122,15 @@ extend(Trainee, Developer);
 
 var me = new Developer('Kate', 26, 0);
 var he = new Trainee('Serg', 24, 1);
+var mng = new Manager('Katya', 22, 0);
+mng.assignTask(me, 'First task');
+mng.assignTask(me, 'Second task');
+for (var i = 0; i < 3; i++) {
+    me.toCode();
+}
+for (var i = 0; i < 7; i++) {
+    me.fixBugs();
+}
 
 //Company
 function Company () {
@@ -117,9 +142,7 @@ function Company () {
     this.developers = [];
     this.managers = [];
     this.directors = [];
-    
-    
-    
+        
     this.hireEmployee = function (person) {
         //company.push(person);
     };
