@@ -21,8 +21,16 @@
 </head>
 <body>
     <div class="container">
-        
+        <p>If you see me walkin' down the line</p>
+        <p id="el">with my fav'rite honky tonk in mind,</p>
+        <p>well, I'll be here around suppertime</p>
+        <p>with my can of dinner and a bunch of fine.</p>
     </div>
-    <script type="application/javascript" src="script.js"></script>
+    <!--<script type="application/javascript" src="script.js"></script>-->
+    <script type="application/javascript" src="htmlEl.js"></script>
+    <script>
+        var el = document.getElementById('el');
+        el.printInner();
+    </script>
 </body>
 </html>
