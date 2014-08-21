@@ -15,18 +15,20 @@ var PlayerFactory = (function() {
         contsructors: {
             Player: function (name) {
                 this.name = name;
-                this.type = 'player';
-                this.sex = 'male';
-            },
+            },        
+            Forward: function() {
+                arguments.callee.superclass.constructor.apply(this, arguments);
+                this.type = 'forward';
+            },                    
             Goalkeeper: function() {
                 arguments.callee.superclass.constructor.apply(this, arguments);
                 this.type = 'goalkeeper';
             },
-            Halfback: function (name) {
+            Halfback: function () {
                 arguments.callee.superclass.constructor.apply(this, arguments);
                 this.type = 'halfback';
             },
-            Defender: function (name) {
+            Defender: function () {
                 arguments.callee.superclass.constructor.apply(this, arguments);
                 this.type = 'defender';
             }
@@ -43,8 +45,10 @@ var PlayerFactory = (function() {
     //Player
     factory.contsructors.Player.prototype.pass = function() {
         console.log(this.name + ' gives pass');
-    };
+    };    
     
+    //Forward
+    extend(factory.contsructors.Forward, factory.contsructors.Player);
     
     //Goalkeeper
     extend(factory.contsructors.Goalkeeper, factory.contsructors.Player);    
